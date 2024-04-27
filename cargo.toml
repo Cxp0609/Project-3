@@ -2,37 +2,5 @@
 name = "Project-3"
 version = "0.1.0"
 edition = "2021"
-[features]
-default = ["sudoer"]
-sudoer = []
-
-
 [dependencies]
-rust_search = "2.1.0"
-reqwest = { version = "0.12.*", features = ["blocking", "json"] }
-crypto = "0.3.0"
-regex-syntax = "0.8.3"
-dirs = "5.0.1"
-
-[dev-dependencies]
-clap = { version = "4.5.4", features = ["derive"] }
-clio = { version = "0.3.5", features = ["clap-parse"] }
-regex = "1.10.4"
-
-[profile.release]
-lto="fat"
-
-[profile.bench]
-lto="fat"
-
-[profile.dev.package."*"]
-opt-level = 1
-debug-assertions = true # just in case
-overflow-checks = false
-incremental = false
-
-[profile.test.package."*"]
-opt-level = 1
-debug-assertions = true # just in case
-overflow-checks = false
-incremental = false
+ureq = { version = "2.9.6", default-features = false, features = ["json"] }
