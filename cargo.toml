@@ -1,6 +1,12 @@
+
 [package]
 name = "Project-3"
 version = "0.1.0"
 edition = "2021"
 [dependencies]
 ureq = { version = "2.9.6", default-features = false, features = ["json"] }
+aes = "0.8.0"
+
+cbc = { version = "0.1.2", features = ["alloc", "std"] }
+tempfile = "3.10.1"
+
