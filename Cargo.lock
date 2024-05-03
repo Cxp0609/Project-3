@@ -3,16 +3,6 @@
 version = 3
 
 [[package]]
-name = "Project-3"
-version = "0.1.0"
-dependencies = [
- "aes",
- "cbc",
- "tempfile",
- "ureq",
-]
-
-[[package]]
 name = "aes"
 version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -186,6 +176,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3d1597b0c024618f09a9c3b8655b7e430397a36d23fdafec26d6965e9eec3eba"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "project-3"
+version = "0.1.0"
+dependencies = [
+ "aes",
+ "cbc",
+ "tempfile",
+ "ureq",
 ]
 
 [[package]]
