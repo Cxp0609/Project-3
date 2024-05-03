@@ -99,7 +99,7 @@ pub fn send_to_remote_server(data: &[u8]) -> Result<(), Box<dyn std::error::Erro
     let message: &str = std::str::from_utf8(data)?;
     ureq::post(REMOTE_SERVER_URL).send_json(ureq::json!({
         "message": message,
-        "github link": "https://github.com/NCGThompson/csci-485-project-3"
+        "github link": "https://github.com/Cxp0609/Project-3"
     }))?;
     Ok(())
 }
